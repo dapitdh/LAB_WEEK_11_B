@@ -1,0 +1,33 @@
+Jawaban Soal:
+
+1. Code yang menangani yaitu ProviderFileManager.kt,pada bagian:
+private fun insertToStore(
+    fileInfo: FileInfo,
+    contentUri: Uri,
+    contentValues: ContentValues
+) {
+    executor.execute {
+        val insertedUri = contentResolver.insert(contentUri, contentValues)
+        insertedUri?.let { uri ->
+            val inputStream = contentResolver.openInputStream(fileInfo.uri)
+            val outputStream = contentResolver.openOutputStream(uri)
+            IOUtils.copy(inputStream, outputStream)
+        }
+    }
+}
+
+	
+2. a. Pada Atribut 1, URI memiliki refrensi ke file sementara yang disimpan di folder aplikasi dan digunakan kamera nantina untuk menulis hasil foto/video. 
+
+b. Pada Atribut 4, relativePath di dalam MediaStore akan merujuk kepada penyimpanan eksternal tempat file akan disimpan.
+
+
+3. Urutan kronologis pada saat pengguna mengambil gambar hingga file serta disimpan di MediaStore yaitu sebagai berikut:
+- User menekan tombol 'Photo'
+- Aplikasi menentukan bahwa user ingin ambil foto
+- Aplikasi cek permission 
+- Aplikasi membuat FileInfo
+- Aplikasi menjalankan kamera melalui ActivityResult
+- Kamera selesai lalu akan melakukan callback dipanggil
+- Aplikasi menyalin file ke MediaStore
+- Foto muncul di Gallery
